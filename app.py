@@ -24,8 +24,8 @@ sys.excepthook = my_except_hook
 
 
 st.title("Plot your Data")
-st.header("Load your data,translate it and plot it")
-st.header("For better translations, transform your data into meaningfull words")
+st.header("Load your data & plot it")
+
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
@@ -34,21 +34,6 @@ data = pd.read_csv('data_tr.csv')
 
 sns.set(rc={'figure.figsize':(15,8.27)})
 
-data.columns = ['Kodlama Saatleri',"Günlük Kupa Kahve İçimi","Kahve Zamanı","Kahve İçermeyen Kodlama","Kahve Tipi","Kahve Bug Çözücü","Cinsiyet","Ülke","Yaş Aralığı"]
-
-
-st.header("Look for Language options")
-st.markdown("https://cloud.google.com/translate/docs/languages")
-
-Language_Options = ["af","sq","am","ar","hy","az","eu","be","bn","bs","bg","ca","ceb",
-"zh","zh-TW","co","hr","cs","da","nl","en","eo","et","fi","fr","fy","gl","ka","de","el",
-"gu","ht","ha","haw","he","hi","hmn","hu","is","ig","id","ga","it","ja","jv","kn","kk",
-"km","rw","ko","ku","ky","lo","la","lv","lt","lb","mk","mg","ms","ml","mt","mi","mr","mn",
-"my","ne","no","ny","or","ps","fa","pl","pt","pa","ro","ru","sm","gd","sr","st","sn","sd",
-"si","sk","sl","so","es","su","sw","sv","tl","tg","ta","tt","te","th","tr","tk","uk","ur",
-"ug","uz","vi","cy","xh","yi","yo","zu"]
-
-selectedLanguage = st.selectbox("Select Your Language",Language_Options)
 
 
 
@@ -128,21 +113,6 @@ def get_file_type(file: Union[BytesIO, StringIO]) -> FileType:
 
 def translate_data(dataFrame):
     df = dataFrame.copy()
-    df.rename(columns=lambda x: translator.translate(x,dest=selectedLanguage).text, inplace=True)
-
-    translations = {}
-    for column in df.columns:
-        # unique elements of the column
-        unique_elements = df[column].unique()
-        for element in unique_elements:
-            # add translation to the dictionary
-            try:
-                translations[element] = translator.translate(element,dest=selectedLanguage).text 
-            except:
-                continue
-
-
-    df.replace(translations, inplace = True)
    
     return df
 
