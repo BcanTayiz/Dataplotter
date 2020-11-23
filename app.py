@@ -16,11 +16,15 @@ import cgi
 from enum import Enum
 from io import BytesIO, StringIO
 from typing import Union
+import os
 
 import sys
 def my_except_hook(exctype, value, traceback):
         print('The translation is not done, please refresh the page or retry the program function')
 sys.excepthook = my_except_hook
+
+
+port = int(os.environ.get(“PORT”, 5000))
 
 
 st.title("Plot your Data")
